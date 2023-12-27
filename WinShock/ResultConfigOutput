@@ -1,0 +1,70 @@
+{
+  "Osc": {
+    "Chatbox": true, # Display chatbox messages on shocks
+    "Hoscy": false, # Use HOSCY for chatbox
+    "SendPort": 9000, # Where to send osc messages to, VRChat default is 9000. This can be left like it is for HOSCY, seem next item.
+    "HoscySendPort": 9001 # Used to send chatbox message via hoscy is 'Hoscy' is to true.
+  },
+  "Behaviour": {
+    "RandomIntensity": true,
+    "RandomDuration": true, # Durations/time measurements are all in milliseconds since v1.0.1.0
+    "RandomDurationStep": 100, # Random step, e.g. 1000 would be full seconds
+    "DurationRange": {
+      "Min": 300,
+      "Max": 5000
+    },
+    "IntensityRange": { # Intensity percentage range for random/physbone shocks
+      "Min": 1,
+      "Max": 30
+    },
+    "FixedIntensity": 50, # If RandomIntensity is false
+    "FixedDuration": 2, # If RandomDuration is false
+    "HoldTime": 250, # Defines how long the parameter needs to be true in milliseconds for the shock to be triggered
+    "CooldownTime": 5000, # Cooldown in milliseconds between shocks **per shocker**,
+    "WhileBoneHeld": "Vibrate", # `Vibrate`, `Shock`, `None` - defines what happens when a physbone is held in hand
+    "DisableWhileAfk": true, # Disable shocks when AFK (VRChats AFK Detection needs to be turned on for this)
+    "ForceUnmute": false # Force unmute when shock is triggered
+  },
+  "Chatbox": {
+    "Prefix": "[ShockOsc] ", # Prefix shown on all messages
+    "DisplayRemoteControl": true, # Display commands from outside of ShockOsc in the chatbox?
+    "HoscyType": "Message", # Send as Message or Notification type in hosy?
+    "IgnoredKillSwitchActive": "Ignoring Shock, kill switch is active", # Set to empty or null when you want to disable this message,
+    "IgnoredAfk": "Ignoring Shock, user is afk", # Set to empty or null when you want to disable this message,
+    "Types": { ## If you chose to specify any of those, you need to specify all, all or nothing :)
+      "Stop": {
+        "Enabled": true, # Weither to show this type as a message at all or not
+        "Local": "⏸ '{ShockerName}'", # When a action is done from ShockOsc
+        "Remote": "⏸ '{ShockerName}' by {Name}", # When it comes from a share code or share link (logged in)
+        "RemoteWithCustomName": "⏸ '{ShockerName}' by {CustomName} [{Name}]" # When its a share link guest controlling
+      },
+      "Shock": {
+        "Enabled": true,
+        "Local": "⚡ '{ShockerName}' {Intensity}%:{DurationSeconds}s",
+        "Remote": "⚡ '{ShockerName}' {Intensity}%:{DurationSeconds}s by {Name}",
+        "RemoteWithCustomName": "⚡ '{ShockerName}' {Intensity}%:{DurationSeconds}s by {CustomName} [{Name}]"
+      },
+      "Vibrate": {
+        "Enabled": true,
+        "Local": "〜 '{ShockerName}' {Intensity}%:{DurationSeconds}s",
+        "Remote": "〜 '{ShockerName}' {Intensity}%:{DurationSeconds}s by {Name}",
+        "RemoteWithCustomName": "〜 '{ShockerName}' {Intensity}%:{DurationSeconds}s by {CustomName} [{Name}]"
+      },
+     "Sound": {
+        "Enabled": true,
+        "Local": "🔈 '{ShockerName}' {Intensity}%:{DurationSeconds}s",
+        "Remote": "🔈 '{ShockerName}' {Intensity}%:{DurationSeconds}s by {Name}",
+        "RemoteWithCustomName": "🔈 '{ShockerName}' {Intensity}%:{DurationSeconds}s by {CustomName} [{Name}]"
+     }
+    }
+  },
+  "ShockLink": {
+    "UserHub": "https://api.shocklink.net/1/hubs/user",
+    "ApiToken": "SET THIS TO YOUR OPENSHOCK API TOKEN",
+    "ChatboxRemoteControls": true, # Weither to display Shocks via some other source (e.g. Website) in the Chatbox
+    "Shockers": { # Key = ShockerName, Value = ShockerId
+      "Leg": "d9267ca6-d69b-4b7a-b482-c455f75a4408" # Example with a name you can freely choose, e.g. Leg and a ShockerId
+    }
+  },
+  "LastIgnoredVersion": null # Auto updater uses this to ignore updates, dont touch unless you wanna be prompted for an update you previously ignored.
+}
