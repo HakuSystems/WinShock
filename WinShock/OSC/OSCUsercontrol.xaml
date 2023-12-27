@@ -1,0 +1,28 @@
+<UserControl x:Class="WinShock.OSC.OSCUsercontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             Loaded="OSCUsercontrol_OnLoaded"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ui:ToggleSwitch x:Name="ChatboxBoolCheckBox" Margin="5"
+                             Checked="ChatboxBoolCheckBox_OnChecked"
+                             Unchecked="ChatboxBoolCheckBox_OnUnchecked"
+                             Content="Display chatbox messages on shocks" />
+            <ui:ToggleSwitch x:Name="UseHoscyCheckbox" Checked="UseHoscyCheckbox_OnChecked"
+                             Unchecked="UseHoscyCheckbox_OnUnchecked" Content="Use HOSCY for chatbox" Margin="5" />
+            <ui:Card>
+                <StackPanel>
+                    <TextBlock Text="Current Port" Foreground="White" />
+                    <TextBlock x:Name="NormalPortTxt" Text="9000" Opacity="0.5" Foreground="White" />
+                    <ui:TextBox x:Name="SendPortTextBox" TextChanged="SendPortTextBox_OnTextChanged" Text="9000"
+                                Foreground="White" Margin="5" />
+                </StackPanel>
+            </ui:Card>
+        </StackPanel>
+    </Grid>
+</UserControl>

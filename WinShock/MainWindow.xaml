@@ -3,10 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:WinShock"
+        Loaded="MainWindow_OnLoaded"
+        MouseDown="MainWindow_OnMouseDown"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        MinWidth="1100"
+        MinHeight="650"
+        Title="WinShock"
+        Width="auto"
+        Height="auto"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ConfigChecker" Grid.ColumnSpan="2"/>
+        <ui:TitleBar Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        <StackPanel x:Name="ContentsBtn" IsEnabled="False" Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="OpenShock" Margin="5"/>
+            <TextBlock Text="WinShockConfigManager" Opacity="0.5" Margin="15"/>
+            <ui:Button x:Name="OSCBtn" Click="OSCBtn_OnClick" Content="OSC" Margin="5" HorizontalAlignment="Stretch"/>
+            <ui:Button x:Name="BehaviorBtn" Content="Behaviour" Click="BehaviorBtn_OnClick" Margin="5" HorizontalAlignment="Stretch"/>
+            <ui:Button x:Name="ChatboxBtn" Content="Chatbox" Margin="5" HorizontalAlignment="Stretch"/>
+            <ui:Button x:Name="ShockLinkBtn" Content="ShockLink" Margin="5" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+        <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" NavigationUIVisibility="Hidden" x:Name="NavFrame"/>
     </Grid>
 </Window>

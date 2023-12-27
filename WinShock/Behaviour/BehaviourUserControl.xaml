@@ -1,0 +1,44 @@
+<UserControl x:Class="WinShock.Behaviour.BehaviourUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WinShock.Behaviour"
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             Background="Transparent"
+             Loaded="BehaviourUserControl_OnLoaded"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ui:ToggleSwitch x:Name="RandomIntensityCheckbox" Margin="5"
+                             Content="Random Intensity" />
+            <ui:ToggleSwitch x:Name="RandomDurationCheckbox" Margin="5"
+                                Content="Random Duration" />
+            <ui:Card>
+                <StackPanel>
+                    <TextBlock Text="Random Duration Step"/>
+                    <ui:TextBox  x:Name="DurationStepTextBox" TextChanged="DurationStepTextBox_OnTextChanged" Margin="5" Text="100"/>
+                    <TextBlock x:Name="SecondsCounter" Opacity="0.5"/>
+                </StackPanel>
+            </ui:Card>
+            <ui:Card Margin="0,5,0,0">
+                <StackPanel>
+                    <TextBlock Text="Duration Range"/>
+                    <Slider Style="{DynamicResource MaterialDesignDiscreteHorizontalSlider}" Minimum="300" Maximum="5000"/>
+                </StackPanel>
+            </ui:Card>
+            <ui:Card Margin="0,5,0,0">
+                <StackPanel>
+                    <TextBlock Text="Intensity Range"/>
+                    <Slider Style="{DynamicResource MaterialDesignDiscreteHorizontalSlider}" Minimum="1" Maximum="30"/>
+                </StackPanel>
+            </ui:Card>
+            <ui:ToggleSwitch x:Name="FixedIntensityCheckbox" Margin="5"
+                             Content="Fixed Intensity" />
+            <ui:ToggleSwitch x:Name="FixedDuration" Margin="5"
+                             Content="Fixed Duration" />
+        </StackPanel>
+    </Grid>
+</UserControl>
