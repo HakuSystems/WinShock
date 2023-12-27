@@ -46,10 +46,9 @@ public partial class OSCUsercontrol : UserControl
     {
         SendPortTextBox.Visibility = Visibility.Collapsed;
         NormalPortTxt.Visibility = Visibility.Visible;
-        NormalPortTxt.Text = "9001";
         SendPortTextBox.Text = "9001";
+        NormalPortTxt.Text = "9001";
         Hoscy = true;
-        SendPort = "9001";
         UpdateConfigPart();
     }
 
@@ -60,7 +59,6 @@ public partial class OSCUsercontrol : UserControl
         SendPortTextBox.Text = "9000";
         NormalPortTxt.Text = "9000";
         Hoscy = false;
-        SendPort = "9000";
         UpdateConfigPart();
     }
 
