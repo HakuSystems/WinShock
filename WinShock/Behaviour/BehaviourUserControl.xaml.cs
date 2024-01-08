@@ -1,13 +1,29 @@
+using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Newtonsoft.Json;
 using Wpf.Ui.Common;
 
 namespace WinShock.Behaviour;
 
 public partial class BehaviourUserControl : UserControl
 {
+    public bool RandomIntensity { get; set; }
+    public bool RandomDuration { get; set; }
+    public int RandomDurationStep { get; set; }
+    public Range DurationRange { get; set; }
+    public Range IntensityRange { get; set; }
+    public int FixedIntensity { get; set; }
+    public int FixedDuration { get; set; }
+    public int HoldTime { get; set; }
+    public int CooldownTime { get; set; }
+    public string WhileBoneHeld { get; set; }
+    public bool DisableWhileAfk { get; set; }
+    public bool ForceUnmute { get; set; }
+    
     public BehaviourUserControl()
     {
         InitializeComponent();
@@ -17,49 +33,121 @@ public partial class BehaviourUserControl : UserControl
     {
         var mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.BehaviorBtn.Appearance = ControlAppearance.Success;
+        UpdateConfig();
     }
 
-    private bool IsUserInput = true;
-
-    private void DurationStepTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    private void UpdateConfig()
     {
-        if (IsUserInput)
+        var config = new BehaviourConfig
         {
-            IsUserInput = false;
+            RandomIntensity = RandomIntensity,
+            RandomDuration = RandomDuration,
+            RandomDurationStep = RandomDurationStep,
+            DurationRange = DurationRange,
+            IntensityRange = IntensityRange,
+            FixedIntensity = FixedIntensity,
+            FixedDuration = FixedDuration,
+            HoldTime = HoldTime,
+            CooldownTime = CooldownTime,
+            WhileBoneHeld = WhileBoneHeld,
+            DisableWhileAfk = DisableWhileAfk,
+            ForceUnmute = ForceUnmute
+        };
+        ConfigManager.Instance.UpdateBehaviour(config);
+    }
+    private void RandomIntensityCheckbox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        IntensityRangeSlider.IsEnabled = true;
+        FixedIntensityTextBox.IsEnabled = false;
+        RandomIntensity = true;
+        UpdateConfig();
+    }
 
-            DurationStepTextBox.Text = new string(DurationStepTextBox.Text.Where(char.IsDigit).ToArray());
-            var currentFullNumber = int.TryParse(DurationStepTextBox.Text, out var number) ? number : 0;
-            var currentNumber = currentFullNumber;
+    private void RandomIntensityCheckbox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        IntensityRangeSlider.IsEnabled = false;
+        FixedIntensityTextBox.IsEnabled = true;
+        RandomIntensity = false;
+        UpdateConfig();
+    }
 
-            //Change SecondsCounter for better readability for example 1000 -> 1 Seconds and 10000 -> 10 Seconds or 1001 -> 1 Seconds and 1 Millisecond
-            var timeCounters = new int[8];
-            string[] timeUnits =
-            {
-                "Milliseconds",
-                "Seconds",
-                "Minutes",
-                "Hours",
-                "Days",
-                "Weeks",
-                "Months",
-                "Years"
-            };
-            var sb = new StringBuilder();
+    private void RandomDurationStepSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        RandomDurationStep = (int)RandomDurationStepSlider.Value;
+        UpdateConfig();
+    }
 
-            for (var i = 0; i < timeCounters.Length; i++)
-            {
-                timeCounters[i] = currentNumber % 1000;
-                currentNumber /= 1000;
+    private void DurationRangeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        DurationRange = new Range((int)DurationRangeSlider.Value, (int)DurationRangeSlider.Maximum);
+        UpdateConfig();
+    }
 
-                if (timeCounters[i] != 0) sb.Insert(0, timeCounters[i] + " " + timeUnits[i] + " ");
+    private void IntensityRangeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        IntensityRange = new Range((int)IntensityRangeSlider.Value, (int)IntensityRangeSlider.Maximum);
+        UpdateConfig();
+    }
 
-                if (currentNumber == 0) break;
-            }
+    private void FixedIntensityTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        FixedIntensity = int.TryParse(FixedIntensityTextBox.Text, out var number) ? number : 0;
+        UpdateConfig();
+    }
 
-            if (SecondsCounter != null) SecondsCounter.Text = sb.ToString().Trim();
-            DurationStepTextBox.Text = currentFullNumber.ToString();
+    private void FixedDurationInput_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        FixedDuration = int.TryParse(FixedDurationInput.Text, out var number) ? number : 0;
+        UpdateConfig();
+    }
 
-            IsUserInput = true;
-        }
+    private void HoldTimeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        HoldTime = (int)HoldTimeSlider.Value;
+        UpdateConfig();
+    }
+
+    private void CooldownTimeSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        CooldownTime = (int)CooldownTimeSlider.Value;
+        UpdateConfig();
+    }
+
+    private void DisableWhileAfkCheckbox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        DisableWhileAfk = true;
+        UpdateConfig();
+    }
+
+    private void DisableWhileAfkCheckbox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        DisableWhileAfk = false;
+        UpdateConfig();
+    }
+
+    private void ForceUnmuteCheckbox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        ForceUnmute = true;
+        UpdateConfig();
+    }
+
+    private void ForceUnmuteCheckbox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        ForceUnmute = false;
+        UpdateConfig();
+    }
+
+    private void RandomDurationCheckbox_OnChecked(object sender, RoutedEventArgs e)
+    {
+        RandomDuration = true;
+        FixedDurationInput.IsEnabled = false;
+        UpdateConfig();
+    }
+
+    private void RandomDurationCheckbox_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+        RandomDuration = false;
+        FixedDurationInput.IsEnabled = true;
+        UpdateConfig();
     }
 }

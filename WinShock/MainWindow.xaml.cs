@@ -20,24 +20,6 @@ public partial class MainWindow : Window
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
-        var configPath = Path.Combine(Environment.CurrentDirectory, "config.json");
-        if (!File.Exists(configPath))
-        {
-            ConfigChecker.Text = "Config file not found!";
-            ConfigChecker.Visibility = Visibility.Visible;
-            ConfigChecker.Foreground = System.Windows.Media.Brushes.Red;
-            ConfigChecker.FontWeight = FontWeights.Bold;
-            ContentsBtn.IsEnabled = false;
-            ContentsBtn.Visibility = Visibility.Hidden;
-        }
-        else
-        {
-            ConfigChecker.Visibility = Visibility.Hidden;
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.NavFrame.Navigate(new Uri("OSC/OSCUsercontrol.xaml", UriKind.Relative));
-            ContentsBtn.IsEnabled = true;
-            ContentsBtn.Visibility = Visibility.Visible;
-        }
         UpdateContentsBtn();
         ResetBtnAppearance();
     }

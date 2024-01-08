@@ -23,16 +23,14 @@ public partial class OSCUsercontrol : UserControl
 
     private void UpdateConfigPart()
     {
-        var configPath = Path.Combine(Environment.CurrentDirectory, "config.json");
-        var config = JsonConvert.DeserializeObject<ConfigManager.Config>(File.ReadAllText(configPath));
-        config.OSC = new OSCConfig
+        var config = new OSCConfig
         {
             Chatbox = Chatbox,
             Hoscy = Hoscy,
             SendPort = SendPort,
             HoscySendPort = HoscySendPort
         };
-        File.WriteAllText(configPath, JsonConvert.SerializeObject(config, Formatting.Indented));
+        ConfigManager.Instance.UpdateOSC(config);
     }
 
     private void OSCUsercontrol_OnLoaded(object sender, RoutedEventArgs e)
